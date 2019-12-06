@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 @Data
 public class TxtFileReader {
 
-    private List<Integer> lines;
+    private List<String> lines;
     private URL resource;
 
     public TxtFileReader(String fileName) {
@@ -23,7 +23,7 @@ public class TxtFileReader {
         try {
             Path resourcePath = Paths.get(resource.toURI()).toAbsolutePath();
             try (Stream<String> stream = Files.lines(Paths.get(resourcePath.toString()))) {
-                stream.forEach(line -> lines.add(Integer.valueOf(line)));
+                stream.forEach(line -> lines.add(line));
             } catch (IOException e) {
                 e.printStackTrace();
             }
