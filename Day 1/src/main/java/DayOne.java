@@ -4,5 +4,6 @@ public class DayOne {
 
     public static void main(String[] args) {
         System.out.println(Processor.processFuelList(DataFormatter.strListToIntList(READER.getLines())));
+        System.out.println(Processor.processFuelListWithFuelIncluded(DataFormatter.strListToIntList(READER.getLines())));
     }
 }
