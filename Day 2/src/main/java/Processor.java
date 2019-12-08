@@ -9,28 +9,30 @@ public class Processor {
     final static Integer ARG2_INDEX = 2;
     final static Integer TARGET_INDEX = 3;
 
-    public static String processProgram(List<Integer> input) {
-        HashMap<Integer, Integer> programMap = DataFormatter.intListToPositionMap(input);
+    public static HashMap<Integer, Integer> processProgram(HashMap<Integer, Integer> programMap) {
+        HashMap<Integer, Integer> localProgramMap = new HashMap<>() {{
+            this.putAll(programMap);
+        }};
         Boolean terminate = false;
         Integer programCounter = 0;
         while(!terminate) {
-            switch (OpCode.forValue(programMap.get(programCounter))) {
+            switch (OpCode.forValue(localProgramMap.get(programCounter))) {
                 case ADD:
                     Addition addition = new Addition(
-                            programMap.get(programMap.get(programCounter + ARG1_INDEX)),
-                            programMap.get(programMap.get(programCounter + ARG2_INDEX)),
-                            programMap.get(programCounter + TARGET_INDEX)
+                            localProgramMap.get(localProgramMap.get(programCounter + ARG1_INDEX)),
+                            localProgramMap.get(localProgramMap.get(programCounter + ARG2_INDEX)),
+                            localProgramMap.get(programCounter + TARGET_INDEX)
                     );
-                    updateProgramMap(programMap, addition);
+                    updateProgramMap(localProgramMap, addition);
                     programCounter+=STEP_SIZE;
                     break;
                 case MUL:
                     Multiplication multiplication = new Multiplication(
-                            programMap.get(programMap.get(programCounter + ARG1_INDEX)),
-                            programMap.get(programMap.get(programCounter + ARG2_INDEX)),
-                            programMap.get(programCounter + TARGET_INDEX)
+                            localProgramMap.get(localProgramMap.get(programCounter + ARG1_INDEX)),
+                            localProgramMap.get(localProgramMap.get(programCounter + ARG2_INDEX)),
+                            localProgramMap.get(programCounter + TARGET_INDEX)
                     );
-                    updateProgramMap(programMap, multiplication);
+                    updateProgramMap(localProgramMap, multiplication);
                     programCounter+=STEP_SIZE;
                     break;
                 case END:
@@ -38,7 +40,7 @@ public class Processor {
                     break;
             }
         }
-        return programMap.values().stream().map(String::valueOf).collect(Collectors.joining(","));
+        return localProgramMap;
     }
 
     public static void updateProgramMap(HashMap<Integer, Integer> programMap, Operation operation) {
