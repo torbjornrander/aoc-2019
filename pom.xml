@@ -18,6 +18,7 @@
         <module>Day 1</module>
         <module>Day 2</module>
         <module>Utils</module>
+        <module>Day 3</module>
     </modules>
 
     <dependencies>
